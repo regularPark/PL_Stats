@@ -1,0 +1,25 @@
+li {
+  list-style: none;
+}
+.standings {
+  display: flex;
+  flex-direction: row;
+}
+
+.teams {
+  display: flex;
+  flex-direction: row;
+}
+
+.recent-games {
+  display: flex;
+  flex-direction: row;
+}
+
+.rank {
+  width: 0.5em;
+}
+
+.team-name {
+  width: 10em;
+}
