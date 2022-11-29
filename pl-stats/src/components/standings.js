@@ -1,10 +1,12 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 const cheerio = require("cheerio");
 
-const standings = [];
+// const standings = [];
 
 const ShowStandings = () => {
+  const [standings, setStandings] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -16,7 +18,8 @@ const ShowStandings = () => {
         const elements = $(".LName");
 
         elements.each((idx, el) => {
-          standings.push([$(el).text()]);
+          const newItem = $(el).text();
+          setStandings((teams) => [...teams, newItem]);
         });
       } catch (e) {
         console.log(e);
@@ -26,9 +29,14 @@ const ShowStandings = () => {
   }, []);
 
   console.log(standings);
+
   return (
     <div>
-      <ul></ul>
+      <ul>
+        {standings.map((val, idx) => {
+          return <li key={idx + 1}>{idx + 1 + " " + val}</li>;
+        })}
+      </ul>
     </div>
   );
 };
