@@ -22,7 +22,7 @@ const Nav = () => {
         </p>
         <p>
           <NavLink to="/players" className="nav-link">
-            선수 통계
+            Top10
           </NavLink>
         </p>
       </div>

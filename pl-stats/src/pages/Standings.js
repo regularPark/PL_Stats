@@ -65,7 +65,7 @@ const ShowStandings = () => {
             <tr>
               <td className="head-table"></td>
               <td className="head-table"></td>
-              <td className="head-table">팀 이름</td>
+              <td className="head-team">팀 이름</td>
               <td className="head-table">경기수</td>
               <td className="head-table">승리</td>
               <td className="head-table">무승부</td>
@@ -80,7 +80,7 @@ const ShowStandings = () => {
                   <td className={whichLeague(idx)} id="rank">
                     {idx + 1}
                   </td>
-                  <td>
+                  <td className="team-logo">
                     <img src={TeamLogo(val)} />
                   </td>
                   <td className="team-name">{val}</td>

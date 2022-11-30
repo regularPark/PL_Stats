@@ -1,6 +1,7 @@
 import axios from "axios";
 import "./Players.css";
 import { useEffect, useState } from "react";
+import TeamLogo from "./../components/TeamLogo";
 const cheerio = require("cheerio");
 
 const Players = () => {
@@ -67,57 +68,73 @@ const Players = () => {
   }, []);
 
   return (
-    <div>
+    <div className="score-assist">
       <div className="top-scorers">
-        <table>
-          <caption>득점 순위</caption>
-          <thead>
-            <tr>
-              <td className="score-rank">순위</td>
-              <td>선수 이름</td>
-              <td>소속팀</td>
-              <td className="score-rank">골(pk)</td>
-            </tr>
-          </thead>
-          <tbody>
-            {topScorerName.map((val, idx) => {
-              return (
-                <tr>
-                  <td className="score-rank">{idx + 1}</td>
-                  <td>{val}</td>
-                  <td>{topScorerTeam[idx]}</td>
-                  <td className="score-rank">{topScorerGoal[idx]}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="score-margin">
+          <table>
+            <caption>득점 순위</caption>
+            <thead>
+              <tr>
+                <td>순위</td>
+                <td></td>
+                <td>선수 이름</td>
+                <td className="total-score">골(PK)</td>
+              </tr>
+            </thead>
+            <tbody>
+              {topScorerName.map((val, idx) => {
+                return (
+                  <tr>
+                    <td className="score-rank">{idx + 1}</td>
+                    <td className="team-logo">
+                      <img src={TeamLogo(topScorerTeam[idx])} />
+                    </td>
+                    <td className="score-player">
+                      <b>{val}</b>
+                      <br />
+                      {topScorerTeam[idx]}
+                    </td>
+                    <td className="total-score">{topScorerGoal[idx]}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
       <br />
       <div className="top-assists">
-        <table>
-          <caption>도움 순위</caption>
-          <thead>
-            <tr>
-              <td className="assist-rank">순위</td>
-              <td>선수 이름</td>
-              <td>소속팀</td>
-              <td className="assist-rank">도움</td>
-            </tr>
-          </thead>
-          <tbody>
-            {topAssistName.map((val, idx) => {
-              return (
-                <tr>
-                  <td className="assist-rank">{idx + 1}</td>
-                  <td>{val}</td>
-                  <td>{topAssistTeams[idx]}</td>
-                  <td className="assist-rank">{topAssist[idx]}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="assist-margin">
+          <table>
+            <caption>도움 순위</caption>
+            <thead>
+              <tr>
+                <td>순위</td>
+                <td></td>
+                <td>선수 이름</td>
+                <td>도움</td>
+              </tr>
+            </thead>
+            <tbody>
+              {topAssistName.map((val, idx) => {
+                return (
+                  <tr>
+                    <td className="assist-rank">{idx + 1}</td>
+                    <td className="team-logo">
+                      <img src={TeamLogo(topAssistTeams[idx])} />
+                    </td>
+                    <td className="assist-player">
+                      <b>{val}</b>
+                      <br />
+                      {topAssistTeams[idx]}
+                    </td>
+                    <td className="total-assist">{topAssist[idx]}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

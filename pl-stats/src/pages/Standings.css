@@ -8,6 +8,12 @@
   background-color: white;
   padding: 20px;
   border-radius: 10px;
+  transition: all 0.3s ease-out;
+}
+
+.all-margin:hover {
+  transform: translate(-10px, -10px);
+  box-shadow: 10px 10px rgba(0, 0, 0, 0.3);
 }
 
 .league-table {
@@ -20,6 +26,12 @@
 .head-table {
   border-bottom: 2px solid black;
   text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: bold;
+}
+
+.head-team {
+  border-bottom: 2px solid black;
   color: rgba(0, 0, 0, 0.6);
   font-weight: bold;
 }
@@ -81,6 +93,11 @@
   text-align: center;
 }
 
+.team-logo {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 td {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
