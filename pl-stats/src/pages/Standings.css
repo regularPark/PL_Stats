@@ -1,6 +1,3 @@
-li {
-  list-style: none;
-}
 .standings {
   display: flex;
   flex-direction: row;
@@ -16,10 +13,44 @@ li {
   flex-direction: row;
 }
 
-.rank {
-  width: 0.5em;
+.etc {
+  text-align: center;
+  font-weight: bold;
+}
+
+.cl {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  background-color: darkblue;
+}
+
+.el {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  background-color: orange;
+}
+
+.ec {
+  text-align: center;
+  font-weight: bold;
+  background-color: greenyellow;
+}
+
+#rank {
+  width: 2em;
 }
 
 .team-name {
   width: 10em;
+}
+
+.res {
+  width: 4em;
+  background-color: aliceblue;
+}
+
+.points {
+  color: deepskyblue;
 }

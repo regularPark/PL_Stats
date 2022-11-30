@@ -1,0 +1,14 @@
+.top-scorers {
+  display: flex;
+  flex-direction: row;
+}
+
+.assist-rank {
+  width: 5em;
+  text-align: center;
+}
+
+.score-rank {
+  width: 5em;
+  text-align: center;
+}

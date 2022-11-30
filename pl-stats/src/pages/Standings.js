@@ -13,6 +13,13 @@ const ShowStandings = () => {
   const [lose, setLose] = useState([]);
   const [point, setPoint] = useState([]);
 
+  const whichLeague = (rank) => {
+    if (rank < 4) return "cl";
+    if (rank === 4) return "el";
+    if (rank === 5) return "ec";
+    else return "etc";
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,43 +60,36 @@ const ShowStandings = () => {
   return (
     <div className="standings">
       <div className="teams">
-        <ul className="rank">
-          {standings.map((val, idx) => {
-            return <li key={idx + val}>{idx + 1}</li>;
-          })}
-        </ul>
-        <ul className="team-name">
-          {standings.map((val, idx) => {
-            return <li key={idx + val}>{val}</li>;
-          })}
-        </ul>
-      </div>
-      <div className="recent-games">
-        <ul>
-          {games.map((val, idx) => {
-            return <li key={val + idx}>{val}</li>;
-          })}
-        </ul>
-        <ul>
-          {win.map((val, idx) => {
-            return <li key={val + idx}>{val}</li>;
-          })}
-        </ul>
-        <ul>
-          {draw.map((val, idx) => {
-            return <li key={val + idx}>{val}</li>;
-          })}
-        </ul>
-        <ul>
-          {lose.map((val, idx) => {
-            return <li key={val + idx}>{val}</li>;
-          })}
-        </ul>
-        <ul>
-          {point.map((val, idx) => {
-            return <li key={val + idx}>{val}</li>;
-          })}
-        </ul>
+        <table>
+          <thead className="head-table">
+            <tr>
+              <td></td>
+              <td>팀 이름</td>
+              <td>경기수</td>
+              <td>승리</td>
+              <td>무승부</td>
+              <td>패배</td>
+              <td>승점</td>
+            </tr>
+          </thead>
+          <tbody>
+            {standings.map((val, idx) => {
+              return (
+                <tr>
+                  <td className={whichLeague(idx)} id="rank">
+                    {idx + 1}
+                  </td>
+                  <td className="team-name">{val}</td>
+                  <td className="res">{games[idx]}</td>
+                  <td className="res">{win[idx]}</td>
+                  <td className="res">{draw[idx]}</td>
+                  <td className="res">{lose[idx]}</td>
+                  <td className="points">{point[idx]}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
