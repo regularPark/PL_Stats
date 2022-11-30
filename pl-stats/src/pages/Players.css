@@ -1,6 +1,15 @@
 .top-scorers {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  color: white;
+}
+
+.top-assists {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: white;
 }
 
 .assist-rank {

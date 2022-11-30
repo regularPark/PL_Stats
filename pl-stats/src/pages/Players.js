@@ -76,7 +76,7 @@ const Players = () => {
               <td className="score-rank">순위</td>
               <td>선수 이름</td>
               <td>소속팀</td>
-              <td>골(pk)</td>
+              <td className="score-rank">골(pk)</td>
             </tr>
           </thead>
           <tbody>
@@ -86,7 +86,7 @@ const Players = () => {
                   <td className="score-rank">{idx + 1}</td>
                   <td>{val}</td>
                   <td>{topScorerTeam[idx]}</td>
-                  <td>{topScorerGoal[idx]}</td>
+                  <td className="score-rank">{topScorerGoal[idx]}</td>
                 </tr>
               );
             })}
@@ -94,7 +94,7 @@ const Players = () => {
         </table>
       </div>
       <br />
-      <div className="top-scorers">
+      <div className="top-assists">
         <table>
           <caption>도움 순위</caption>
           <thead>
@@ -102,7 +102,7 @@ const Players = () => {
               <td className="assist-rank">순위</td>
               <td>선수 이름</td>
               <td>소속팀</td>
-              <td>도움</td>
+              <td className="assist-rank">도움</td>
             </tr>
           </thead>
           <tbody>
@@ -112,7 +112,7 @@ const Players = () => {
                   <td className="assist-rank">{idx + 1}</td>
                   <td>{val}</td>
                   <td>{topAssistTeams[idx]}</td>
-                  <td>{topAssist[idx]}</td>
+                  <td className="assist-rank">{topAssist[idx]}</td>
                 </tr>
               );
             })}

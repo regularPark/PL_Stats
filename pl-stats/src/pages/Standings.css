@@ -1,11 +1,27 @@
 .standings {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
-.teams {
-  display: flex;
-  flex-direction: row;
+.all-margin {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.league-table {
+  margin: auto;
+  border-collapse: separate;
+  background-color: rgba(255, 255, 255, 1);
+  border-spacing: 0 5px;
+}
+
+.head-table {
+  border-bottom: 2px solid black;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: bold;
 }
 
 .recent-games {
@@ -22,7 +38,7 @@
   text-align: center;
   font-weight: bold;
   color: white;
-  background-color: darkblue;
+  background-color: midnightblue;
 }
 
 .el {
@@ -38,19 +54,33 @@
   background-color: greenyellow;
 }
 
+.dl {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  background-color: darkred;
+}
+
 #rank {
   width: 2em;
 }
 
 .team-name {
   width: 10em;
+  font-weight: bold;
 }
 
 .res {
   width: 4em;
-  background-color: aliceblue;
+  text-align: center;
 }
 
 .points {
-  color: deepskyblue;
+  color: midnightblue;
+  font-weight: bold;
+  text-align: center;
+}
+
+td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }

@@ -1,9 +1,8 @@
 import "./Standings.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import TeamLogo from "./../components/TeamLogo";
 const cheerio = require("cheerio");
-
-// const standings = [];
 
 const ShowStandings = () => {
   const [standings, setStandings] = useState([]);
@@ -17,6 +16,7 @@ const ShowStandings = () => {
     if (rank < 4) return "cl";
     if (rank === 4) return "el";
     if (rank === 5) return "ec";
+    if (rank > 17) return "dl";
     else return "etc";
   };
 
@@ -59,17 +59,18 @@ const ShowStandings = () => {
 
   return (
     <div className="standings">
-      <div className="teams">
-        <table>
-          <thead className="head-table">
+      <div className="all-margin">
+        <table className="league-table">
+          <thead>
             <tr>
-              <td></td>
-              <td>팀 이름</td>
-              <td>경기수</td>
-              <td>승리</td>
-              <td>무승부</td>
-              <td>패배</td>
-              <td>승점</td>
+              <td className="head-table"></td>
+              <td className="head-table"></td>
+              <td className="head-table">팀 이름</td>
+              <td className="head-table">경기수</td>
+              <td className="head-table">승리</td>
+              <td className="head-table">무승부</td>
+              <td className="head-table">패배</td>
+              <td className="head-table">승점</td>
             </tr>
           </thead>
           <tbody>
@@ -78,6 +79,9 @@ const ShowStandings = () => {
                 <tr>
                   <td className={whichLeague(idx)} id="rank">
                     {idx + 1}
+                  </td>
+                  <td>
+                    <img src={TeamLogo(val)} />
                   </td>
                   <td className="team-name">{val}</td>
                   <td className="res">{games[idx]}</td>
