@@ -20,7 +20,9 @@ const Team = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resp = await axios.get("/football/database/leagueteamtech-36");
+        const resp = await axios.get(
+          "https://cors-anywhere.herokuapp.com/https://www.scoreman.vip/football/database/leagueteamtech-36"
+        );
 
         const $ = cheerio.load(resp.data);
         const goals = $("#Total_GOALS td");

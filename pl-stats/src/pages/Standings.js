@@ -26,7 +26,9 @@ const ShowStandings = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resp = await axios.get("/football/database/league-36");
+        const resp = await axios.get(
+          "https://cors-anywhere.herokuapp.com/https://www.scoreman.vip/football/database/league-36"
+        );
 
         const $ = cheerio.load(resp.data);
         const elements = $(".LName");
