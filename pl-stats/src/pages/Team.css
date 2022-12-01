@@ -1,0 +1,22 @@
+.team-stats {
+  display: flex;
+  justify-content: center;
+}
+
+.stat-team-head {
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
+}
+
+.stat-teams {
+  width: 10em;
+  font-weight: bold;
+}
+
+.total-team-stats {
+  text-align: center;
+}
