@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/pl-stats/standings/static/css/main.a6da0fa0.css",
-    "main.js": "/pl-stats/standings/static/js/main.8225c5e0.js",
-    "static/js/787.34091e71.chunk.js": "/pl-stats/standings/static/js/787.34091e71.chunk.js",
-    "static/media/loading.gif": "/pl-stats/standings/static/media/loading.c8a368ba52045cf0bfac.gif",
-    "index.html": "/pl-stats/standings/index.html",
-    "main.a6da0fa0.css.map": "/pl-stats/standings/static/css/main.a6da0fa0.css.map",
-    "main.8225c5e0.js.map": "/pl-stats/standings/static/js/main.8225c5e0.js.map",
-    "787.34091e71.chunk.js.map": "/pl-stats/standings/static/js/787.34091e71.chunk.js.map"
+    "main.css": "/PL_Stats/static/css/main.a6da0fa0.css",
+    "main.js": "/PL_Stats/static/js/main.9d4debe6.js",
+    "static/js/787.34091e71.chunk.js": "/PL_Stats/static/js/787.34091e71.chunk.js",
+    "static/media/loading.gif": "/PL_Stats/static/media/loading.c8a368ba52045cf0bfac.gif",
+    "index.html": "/PL_Stats/index.html",
+    "main.a6da0fa0.css.map": "/PL_Stats/static/css/main.a6da0fa0.css.map",
+    "main.9d4debe6.js.map": "/PL_Stats/static/js/main.9d4debe6.js.map",
+    "787.34091e71.chunk.js.map": "/PL_Stats/static/js/787.34091e71.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a6da0fa0.css",
-    "static/js/main.8225c5e0.js"
+    "static/js/main.9d4debe6.js"
   ]
 }
