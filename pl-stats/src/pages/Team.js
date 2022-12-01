@@ -20,9 +20,7 @@ const Team = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resp = await axios.get(
-          "https://www.scoreman.vip/football/database/leagueteamtech-36"
-        );
+        const resp = await axios.get("/football/database/leagueteamtech-36");
 
         const $ = cheerio.load(resp.data);
         const goals = $("#Total_GOALS td");
@@ -81,7 +79,7 @@ const Team = () => {
         <Loading />
       ) : (
         <div className="team-stats">
-          <div>
+          <div className="div-team">
             <div className="stat-margin">
               <table>
                 <caption className="stat-caption">팀 득점 순위</caption>
@@ -118,7 +116,7 @@ const Team = () => {
             </div>
           </div>
           <br />
-          <div className="top-assists">
+          <div className="div-team">
             <div className="stat-margin">
               <table>
                 <caption className="stat-caption">팀 실점 순위</caption>
@@ -155,7 +153,7 @@ const Team = () => {
             </div>
           </div>
           <br />
-          <div className="top-assists">
+          <div className="div-team">
             <div className="stat-margin">
               <table>
                 <caption className="stat-caption">점유율 순위</caption>

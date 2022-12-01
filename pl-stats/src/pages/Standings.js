@@ -26,9 +26,7 @@ const ShowStandings = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resp = await axios.get(
-          "https://www.scoreman.vip/football/database/league-36"
-        );
+        const resp = await axios.get("/football/database/league-36");
 
         const $ = cheerio.load(resp.data);
         const elements = $(".LName");
@@ -92,7 +90,7 @@ const ShowStandings = () => {
                       <td className={whichLeague(idx)} id="rank">
                         {idx + 1}
                       </td>
-                      <td className="team-logo">
+                      <td className="std-team-logo">
                         <img src={TeamLogo(val)} alt={val} />
                       </td>
                       <td className="team-name">{val}</td>

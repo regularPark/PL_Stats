@@ -32,10 +32,22 @@ a.nav-link:hover {
 
 .contents {
   padding: 2em;
+  background: linear-gradient(90deg, #f92d82, #9541f9);
 }
 
 .pl-title {
   font-weight: bold;
   color: white;
   font-size: 1.5em;
+}
+
+@media (max-width: 780px) {
+  .nav-link {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 1em;
+  }
+  .pl-title {
+    display: none;
+  }
 }

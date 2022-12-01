@@ -23,9 +23,7 @@ const Players = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resp = await axios.get(
-          "https://www.scoreman.vip/football/database/playertech-36"
-        );
+        const resp = await axios.get("/football/database/playertech-36");
 
         const $ = cheerio.load(resp.data);
         const goals = $("#Total_Goals td");
@@ -127,7 +125,7 @@ const Players = () => {
                           />
                         </td>
                         <td className="stats-player-list">
-                          <b>{val}</b>
+                          <span style={{ fontWeight: "bold" }}>{val}</span>
                           <br />
                           {topScorerTeam[idx]}
                         </td>
@@ -166,7 +164,7 @@ const Players = () => {
                           />
                         </td>
                         <td className="stats-player-list">
-                          <b>{val}</b>
+                          <span style={{ fontWeight: "bold" }}>{val}</span>
                           <br />
                           {topAssistTeams[idx]}
                         </td>
@@ -205,7 +203,7 @@ const Players = () => {
                           />
                         </td>
                         <td className="stats-player-list">
-                          <b>{val}</b>
+                          <span style={{ fontWeight: "bold" }}>{val}</span>
                           <br />
                           {topPassesTeams[idx]}
                         </td>

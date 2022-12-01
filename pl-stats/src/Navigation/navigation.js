@@ -1,5 +1,6 @@
 import React from "react";
 import "./Navigation.css";
+
 import { NavLink, Route, Routes } from "react-router-dom";
 import ShowStandings from "../pages/Standings";
 import Team from "../pages/Team";
@@ -11,7 +12,7 @@ const Nav = () => {
       <div className="nav-wrapper">
         <p className="pl-title">Premier League</p>
         <p>
-          <NavLink to="/standings" className="nav-link">
+          <NavLink to="/PL_Stats" className="nav-link">
             순위
           </NavLink>
         </p>
@@ -28,7 +29,7 @@ const Nav = () => {
       </div>
       <div className="contents">
         <Routes>
-          <Route path="/standings" element={<ShowStandings />}></Route>
+          <Route path="/PL_Stats" element={<ShowStandings />}></Route>
           <Route path="/team" element={<Team />}></Route>
           <Route path="/players" element={<Players />}></Route>
         </Routes>
