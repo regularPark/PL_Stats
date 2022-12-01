@@ -1,6 +1,6 @@
 /* 수평 정렬 */
 .nav-wrapper {
-  width: 100%;
+  width: 100vw;
   height: 3em;
   overflow: hidden;
   display: flex;
@@ -16,7 +16,14 @@
   color: white;
   margin-left: 3em;
   margin-right: 3em;
+  font-size: larger;
   text-decoration: none;
+  transition: all 0.3s ease-out;
+}
+
+a.nav-link:hover {
+  transform: translate(-10px, -10px);
+  color: #00ff85;
 }
 
 .active {

@@ -4,10 +4,16 @@
   justify-content: center;
 }
 
+.standings-caption {
+  color: #00ff85;
+  font-weight: bold;
+  font-size: 2em;
+  background-color: #3e003b;
+  padding: 0.2em;
+}
+
 .all-margin {
   background-color: white;
-  padding: 20px;
-  border-radius: 10px;
   transition: all 0.3s ease-out;
 }
 
@@ -36,6 +42,10 @@
   font-weight: bold;
 }
 
+#head-point {
+  padding-right: 0.5em;
+}
+
 .recent-games {
   display: flex;
   flex-direction: row;
@@ -44,32 +54,38 @@
 .etc {
   text-align: center;
   font-weight: bold;
+  padding-left: 1em;
 }
 
 .cl {
   text-align: center;
   font-weight: bold;
   color: white;
-  background-color: midnightblue;
+  background-color: #00004a;
+  padding-left: 1em;
 }
 
 .el {
   text-align: center;
   font-weight: bold;
   color: white;
-  background-color: orange;
+  background-color: #ff6900;
+  padding-left: 1em;
 }
 
 .ec {
   text-align: center;
   font-weight: bold;
-  background-color: greenyellow;
+  color: white;
+  background-color: #00bf0c;
+  padding-left: 1em;
 }
 
 .dl {
   text-align: center;
   font-weight: bold;
   color: white;
+  padding-left: 1em;
   background-color: darkred;
 }
 
@@ -88,7 +104,7 @@
 }
 
 .points {
-  color: midnightblue;
+  padding-right: 0.5em;
   font-weight: bold;
   text-align: center;
 }

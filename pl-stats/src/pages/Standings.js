@@ -2,9 +2,12 @@ import "./Standings.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import TeamLogo from "./../components/TeamLogo";
+import Loading from "../components/Loading";
 const cheerio = require("cheerio");
 
 const ShowStandings = () => {
+  const [loading, setLoading] = useState(true);
+
   const [standings, setStandings] = useState([]);
   const [games, setGames] = useState([]);
   const [win, setWin] = useState([]);
@@ -50,6 +53,8 @@ const ShowStandings = () => {
           const newItem = $(el).text();
           setStandings((teams) => [...teams, newItem]);
         });
+
+        setLoading(false);
       } catch (e) {
         console.log(e);
       }
@@ -58,43 +63,52 @@ const ShowStandings = () => {
   }, []);
 
   return (
-    <div className="standings">
-      <div className="all-margin">
-        <table className="league-table">
-          <thead>
-            <tr>
-              <td className="head-table"></td>
-              <td className="head-table"></td>
-              <td className="head-team">팀 이름</td>
-              <td className="head-table">경기수</td>
-              <td className="head-table">승리</td>
-              <td className="head-table">무승부</td>
-              <td className="head-table">패배</td>
-              <td className="head-table">승점</td>
-            </tr>
-          </thead>
-          <tbody>
-            {standings.map((val, idx) => {
-              return (
+    <div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="standings">
+          <div className="all-margin">
+            <table className="league-table">
+              <caption className="standings-caption">리그 순위</caption>
+              <thead>
                 <tr>
-                  <td className={whichLeague(idx)} id="rank">
-                    {idx + 1}
+                  <td className="head-table"></td>
+                  <td className="head-table"></td>
+                  <td className="head-team">팀 이름</td>
+                  <td className="head-table">경기수</td>
+                  <td className="head-table">승리</td>
+                  <td className="head-table">무승부</td>
+                  <td className="head-table">패배</td>
+                  <td className="head-table" id="head-point">
+                    승점
                   </td>
-                  <td className="team-logo">
-                    <img src={TeamLogo(val)} />
-                  </td>
-                  <td className="team-name">{val}</td>
-                  <td className="res">{games[idx]}</td>
-                  <td className="res">{win[idx]}</td>
-                  <td className="res">{draw[idx]}</td>
-                  <td className="res">{lose[idx]}</td>
-                  <td className="points">{point[idx]}</td>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+              </thead>
+              <tbody>
+                {standings.map((val, idx) => {
+                  return (
+                    <tr>
+                      <td className={whichLeague(idx)} id="rank">
+                        {idx + 1}
+                      </td>
+                      <td className="team-logo">
+                        <img src={TeamLogo(val)} alt={val} />
+                      </td>
+                      <td className="team-name">{val}</td>
+                      <td className="res">{games[idx]}</td>
+                      <td className="res">{win[idx]}</td>
+                      <td className="res">{draw[idx]}</td>
+                      <td className="res">{lose[idx]}</td>
+                      <td className="points">{point[idx]}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

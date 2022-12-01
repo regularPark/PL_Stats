@@ -1,4 +1,4 @@
-.score-assist {
+.player-stats {
   display: flex;
   justify-content: center;
 }
@@ -9,17 +9,37 @@
   justify-content: center;
 }
 
-.score-margin {
-  padding: 1em;
-  border-radius: 10px;
+.stat-margin {
   background-color: white;
   margin: 1em;
   transition: all 0.3s ease-out;
 }
 
-.score-margin:hover {
+.stat-margin:hover {
   transform: translate(-10px, -10px);
   box-shadow: 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+.stat-caption {
+  background-color: #3e003b;
+  color: #00ff85;
+  font-weight: bold;
+  font-size: 1.5em;
+  padding: 0.5em;
+}
+
+.stat-head {
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
+}
+
+#stat-rank {
+  text-align: center;
+  padding-left: 0.5em;
 }
 
 .top-assists {
@@ -28,43 +48,33 @@
   justify-content: center;
 }
 
-.assist-margin {
-  padding: 1em;
-  border-radius: 10px;
-  background-color: white;
-  margin: 1em;
-  transition: all 0.3s ease-out;
+.stats-player-list {
+  width: 12em;
 }
 
-.assist-margin:hover {
-  transform: translate(-10px, -10px);
-  box-shadow: 10px 10px rgba(0, 0, 0, 0.3);
-}
-
-.score-player {
-  width: 15em;
-}
-
-.assist-player {
-  width: 15em;
-}
-
-.assist-rank {
+.stat-rank {
   width: 2em;
-  text-align: center;
-}
-
-.score-rank {
-  width: 2em;
+  padding-left: 0.5em;
   text-align: center;
 }
 
 .total-score {
   width: 3em;
+  padding-right: 1em;
   text-align: center;
+  font-weight: bold;
 }
 
 .total-assist {
   width: 3em;
+  padding-right: 1em;
   text-align: center;
+  font-weight: bold;
+}
+
+.total-passes {
+  width: 4em;
+  padding-right: 1em;
+  text-align: center;
+  font-weight: bold;
 }

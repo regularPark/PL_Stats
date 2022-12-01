@@ -1,4 +1,7 @@
 .app {
+  height: 110vh;
+  width: 100vw;
+  color: #3e003b;
   font-family: "SCoreDream";
   font-size: 1.1em;
   background: linear-gradient(90deg, #f92d82, #9541f9);

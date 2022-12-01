@@ -17,12 +17,12 @@ const Nav = () => {
         </p>
         <p>
           <NavLink to="/team" className="nav-link">
-            팀
+            팀 통계
           </NavLink>
         </p>
         <p>
           <NavLink to="/players" className="nav-link">
-            Top10
+            선수 통계
           </NavLink>
         </p>
       </div>
