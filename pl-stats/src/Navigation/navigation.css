@@ -32,6 +32,8 @@ a.nav-link:hover {
 
 .contents {
   padding: 2em;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(90deg, #f92d82, #9541f9);
 }
 

@@ -1,19 +1,15 @@
 import "./Standings.css";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import TeamLogo from "./../components/TeamLogo";
 import Loading from "../components/Loading";
-const cheerio = require("cheerio");
+import { firebaseDB } from "../service/firebase";
 
 const ShowStandings = () => {
   const [loading, setLoading] = useState(true);
 
   const [standings, setStandings] = useState([]);
-  const [games, setGames] = useState([]);
-  const [win, setWin] = useState([]);
-  const [draw, setDraw] = useState([]);
-  const [lose, setLose] = useState([]);
-  const [point, setPoint] = useState([]);
+
+  const rankRef = firebaseDB.ref("league_rank/");
 
   const whichLeague = (rank) => {
     if (rank < 4) return "cl";
@@ -22,44 +18,17 @@ const ShowStandings = () => {
     if (rank > 17) return "dl";
     else return "etc";
   };
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const resp = await axios.get(
-          "https://cors-anywhere.herokuapp.com/https://www.scoreman.vip/football/database/league-36"
-        );
-
-        const $ = cheerio.load(resp.data);
-        const elements = $(".LName");
-        const wdl = $(".rankdata td");
-
-        wdl.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx % 6 === 0) {
-            setGames((res) => [...res, newItem]);
-          } else if (idx % 6 === 1) {
-            setWin((res) => [...res, newItem]);
-          } else if (idx % 6 === 2) {
-            setDraw((res) => [...res, newItem]);
-          } else if (idx % 6 === 3) {
-            setLose((res) => [...res, newItem]);
-          } else if (idx % 6 === 4) {
-            setPoint((res) => [...res, newItem]);
-          }
-        });
-
-        elements.each((idx, el) => {
-          const newItem = $(el).text();
-          setStandings((teams) => [...teams, newItem]);
-        });
-
-        setLoading(false);
-      } catch (e) {
-        console.log(e);
+    rankRef.on("value", (snapshot) => {
+      const teams = snapshot.val();
+      const teamsData = [];
+      for (let team in teams) {
+        teamsData.push({ ...teams[team], team });
       }
-    };
-    fetchData();
+      setStandings(teamsData);
+    });
+
+    setLoading(false);
   }, []);
 
   return (
@@ -90,17 +59,20 @@ const ShowStandings = () => {
                   return (
                     <tr>
                       <td className={whichLeague(idx)} id="rank">
-                        {idx + 1}
+                        {val.rank}
                       </td>
                       <td className="std-team-logo">
-                        <img src={TeamLogo(val)} alt={val} />
+                        <img
+                          src={TeamLogo(val.team_name)}
+                          alt={val.team_name}
+                        />
                       </td>
-                      <td className="team-name">{val}</td>
-                      <td className="res">{games[idx]}</td>
-                      <td className="res">{win[idx]}</td>
-                      <td className="res">{draw[idx]}</td>
-                      <td className="res">{lose[idx]}</td>
-                      <td className="points">{point[idx]}</td>
+                      <td className="team-name">{val.team_name}</td>
+                      <td className="res">{val.G}</td>
+                      <td className="res">{val.W}</td>
+                      <td className="res">{val.D}</td>
+                      <td className="res">{val.L}</td>
+                      <td className="points">{val.Pt}</td>
                     </tr>
                   );
                 })}

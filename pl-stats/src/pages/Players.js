@@ -1,98 +1,66 @@
-import axios from "axios";
 import "./Players.css";
 import { useEffect, useState } from "react";
 import TeamLogo from "./../components/TeamLogo";
 import { Loading } from "./../components/Loading";
-const cheerio = require("cheerio");
+import { firebaseDB } from "../service/firebase";
 
 const Players = () => {
   const [loading, setLoading] = useState(true);
 
-  const [topScorerName, setTopScorerName] = useState([]);
-  const [topScorerTeam, setTopScorerTeam] = useState([]);
-  const [topScorerGoal, setTopScorerGoal] = useState([]);
-
-  const [topAssistName, setTopAssistName] = useState([]);
+  const [topScorer, setTopScorer] = useState([]);
   const [topAssist, setTopAssist] = useState([]);
-  const [topAssistTeams, setTopAssistTeams] = useState([]);
+  const [topDribbler, setTopDribbler] = useState([]);
+  const [topKeyPasser, setTopKeyPasser] = useState([]);
+  const [topPasser, setTopPasser] = useState([]);
 
-  const [topPassesName, setTopPassesName] = useState([]);
-  const [topPasses, setTopPasses] = useState([]);
-  const [topPassesTeams, setTopPassesTeams] = useState([]);
+  const scoreRef = firebaseDB.ref("player_stats/score_rank/");
+  const assistRef = firebaseDB.ref("player_stats/assist_rank/");
+  const dribbleRef = firebaseDB.ref("player_stats/dribble_rank/");
+  const keyPassesRef = firebaseDB.ref("player_stats/key_pass_rank/");
+  const passesRef = firebaseDB.ref("player_stats/pass_rank/");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const resp = await axios.get(
-          "https://cors-anywhere.herokuapp.com/https://www.scoreman.vip/football/database/playertech-36"
-        );
-
-        const $ = cheerio.load(resp.data);
-        const goals = $("#Total_Goals td");
-        const names = $("#Total_Goals .PName");
-        const teams = $("#Total_Goals .team");
-
-        const assists = $("#Total_Assist td");
-        const assistNames = $("#Total_Assist .PName");
-        const assistTeams = $("#Total_Assist .team");
-
-        const passes = $("#Total_TotalPass td");
-        const passesNames = $("#Total_TotalPass .PName");
-        const passesTeams = $("#Total_TotalPass .team");
-
-        goals.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 40 && idx % 4 === 2)
-            setTopScorerGoal((goals) => [...goals, newItem]);
-        });
-
-        names.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 10) setTopScorerName((goals) => [...goals, newItem]);
-        });
-
-        teams.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 10) setTopScorerTeam((goals) => [...goals, newItem]);
-        });
-
-        assists.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 30 && idx % 3 === 2)
-            setTopAssist((goals) => [...goals, newItem]);
-        });
-
-        assistNames.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 10) setTopAssistName((goals) => [...goals, newItem]);
-        });
-
-        assistTeams.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 10) setTopAssistTeams((goals) => [...goals, newItem]);
-        });
-
-        passes.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 40 && idx % 4 === 2)
-            setTopPasses((goals) => [...goals, newItem]);
-        });
-
-        passesNames.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 10) setTopPassesName((goals) => [...goals, newItem]);
-        });
-
-        passesTeams.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 10) setTopPassesTeams((goals) => [...goals, newItem]);
-        });
-        setLoading(false);
-      } catch (e) {
-        console.log(e);
+    scoreRef.on("value", (snapshot) => {
+      const players = snapshot.val();
+      const playersData = [];
+      for (let player in players) {
+        playersData.push({ ...players[player], player });
       }
-    };
-    fetchData();
+      setTopScorer(playersData);
+    });
+    assistRef.on("value", (snapshot) => {
+      const players = snapshot.val();
+      const playersData = [];
+      for (let player in players) {
+        playersData.push({ ...players[player], player });
+      }
+      setTopAssist(playersData);
+    });
+    keyPassesRef.on("value", (snapshot) => {
+      const players = snapshot.val();
+      const playersData = [];
+      for (let player in players) {
+        playersData.push({ ...players[player], player });
+      }
+      setTopKeyPasser(playersData);
+    });
+    dribbleRef.on("value", (snapshot) => {
+      const players = snapshot.val();
+      const playersData = [];
+      for (let player in players) {
+        playersData.push({ ...players[player], player });
+      }
+      setTopDribbler(playersData);
+    });
+    passesRef.on("value", (snapshot) => {
+      const players = snapshot.val();
+      const playersData = [];
+      for (let player in players) {
+        playersData.push({ ...players[player], player });
+      }
+      setTopPasser(playersData);
+    });
+    setLoading(false);
   }, []);
 
   return (
@@ -116,22 +84,22 @@ const Players = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {topScorerName.map((val, idx) => {
+                  {topScorer.map((val, idx) => {
                     return (
                       <tr>
                         <td className="stat-rank">{idx + 1}</td>
                         <td className="team-logo">
                           <img
-                            src={TeamLogo(topScorerTeam[idx])}
-                            alt={topAssistTeams[idx]}
+                            src={TeamLogo(val.team_name)}
+                            alt={val.team_name}
                           />
                         </td>
                         <td className="stats-player-list">
-                          <span style={{ fontWeight: "bold" }}>{val}</span>
+                          <span style={{ fontWeight: "bold" }}>{val.name}</span>
                           <br />
-                          {topScorerTeam[idx]}
+                          {val.team_name}
                         </td>
-                        <td className="total-score">{topScorerGoal[idx]}</td>
+                        <td className="total-score">{val.goal}</td>
                       </tr>
                     );
                   })}
@@ -139,7 +107,6 @@ const Players = () => {
               </table>
             </div>
           </div>
-          <br />
           <div className="top-assists">
             <div className="stat-margin">
               <table>
@@ -155,22 +122,22 @@ const Players = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {topAssistName.map((val, idx) => {
+                  {topAssist.map((val, idx) => {
                     return (
                       <tr>
                         <td className="stat-rank">{idx + 1}</td>
                         <td className="team-logo">
                           <img
-                            src={TeamLogo(topAssistTeams[idx])}
-                            alt={topAssistTeams[idx]}
+                            src={TeamLogo(val.team_name)}
+                            alt={val.team_name}
                           />
                         </td>
                         <td className="stats-player-list">
-                          <span style={{ fontWeight: "bold" }}>{val}</span>
+                          <span style={{ fontWeight: "bold" }}>{val.name}</span>
                           <br />
-                          {topAssistTeams[idx]}
+                          {val.team_name}
                         </td>
-                        <td className="total-assist">{topAssist[idx]}</td>
+                        <td className="total-assist">{val.assist}</td>
                       </tr>
                     );
                   })}
@@ -178,7 +145,82 @@ const Players = () => {
               </table>
             </div>
           </div>
-          <br />
+          <div className="top-assists">
+            <div className="stat-margin">
+              <table>
+                <caption className="stat-caption">키 패스 순위</caption>
+                <thead>
+                  <tr>
+                    <td className="stat-head" id="score-rank">
+                      순위
+                    </td>
+                    <td className="stat-head"></td>
+                    <td className="stat-head">선수 이름</td>
+                    <td className="stat-head">키 패스</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {topKeyPasser.map((val, idx) => {
+                    return (
+                      <tr>
+                        <td className="stat-rank">{idx + 1}</td>
+                        <td className="team-logo">
+                          <img
+                            src={TeamLogo(val.team_name)}
+                            alt={val.team_name}
+                          />
+                        </td>
+                        <td className="stats-player-list">
+                          <span style={{ fontWeight: "bold" }}>{val.name}</span>
+                          <br />
+                          {val.team_name}
+                        </td>
+                        <td className="total-passes">{val.key_pass}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="top-assists">
+            <div className="stat-margin">
+              <table>
+                <caption className="stat-caption">드리블 순위</caption>
+                <thead>
+                  <tr>
+                    <td className="stat-head" id="score-rank">
+                      순위
+                    </td>
+                    <td className="stat-head"></td>
+                    <td className="stat-head">선수 이름</td>
+                    <td className="stat-head">드리블</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {topDribbler.map((val, idx) => {
+                    return (
+                      <tr>
+                        <td className="stat-rank">{idx + 1}</td>
+                        <td className="team-logo">
+                          <img
+                            src={TeamLogo(val.team_name)}
+                            alt={val.team_name}
+                          />
+                        </td>
+                        <td className="stats-player-list">
+                          <span style={{ fontWeight: "bold" }}>{val.name}</span>
+                          <br />
+                          {val.team_name}
+                        </td>
+                        <td className="total-passes">{val.dribble}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
           <div className="top-assists">
             <div className="stat-margin">
               <table>
@@ -190,26 +232,26 @@ const Players = () => {
                     </td>
                     <td className="stat-head"></td>
                     <td className="stat-head">선수 이름</td>
-                    <td className="stat-head">총 패스</td>
+                    <td className="stat-head">패스</td>
                   </tr>
                 </thead>
                 <tbody>
-                  {topPassesName.map((val, idx) => {
+                  {topPasser.map((val, idx) => {
                     return (
                       <tr>
                         <td className="stat-rank">{idx + 1}</td>
                         <td className="team-logo">
                           <img
-                            src={TeamLogo(topPassesTeams[idx])}
-                            alt={topPassesTeams[idx]}
+                            src={TeamLogo(val.team_name)}
+                            alt={val.team_name}
                           />
                         </td>
                         <td className="stats-player-list">
-                          <span style={{ fontWeight: "bold" }}>{val}</span>
+                          <span style={{ fontWeight: "bold" }}>{val.name}</span>
                           <br />
-                          {topPassesTeams[idx]}
+                          {val.team_name}
                         </td>
-                        <td className="total-passes">{topPasses[idx]}</td>
+                        <td className="total-passes">{val.pass}</td>
                       </tr>
                     );
                   })}

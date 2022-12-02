@@ -1,81 +1,70 @@
-import axios from "axios";
 import "./Team.css";
 import { useEffect, useState } from "react";
 import TeamLogo from "./../components/TeamLogo";
 import Loading from "../components/Loading";
-const cheerio = require("cheerio");
+import { firebaseDB } from "../service/firebase";
 
 const Team = () => {
   const [loading, setLoading] = useState(true);
 
   const [topScoredTeam, setTopScoredTeam] = useState([]);
-  const [topScoredGoal, setTopScoredGoal] = useState([]);
-
-  const [topGoalAgainst, setTopGoalAgainst] = useState([]);
-  const [topGoalAgainstTeams, setTopGoalAgainstTeams] = useState([]);
-
+  const [topMiss, setTopMiss] = useState([]);
   const [topPossession, setTopPossession] = useState([]);
-  const [topPossessionTeams, setTopPossessionTeams] = useState([]);
+  const [topShotOnTarget, setTopShotOnTarget] = useState([]);
+  const [topFoul, setTopFoul] = useState([]);
+
+  const teamScoreRef = firebaseDB.ref("team_stats/team_score_rank/");
+  const teamMissRef = firebaseDB.ref("team_stats/team_miss_rank/");
+  const teamPosRef = firebaseDB.ref("team_stats/possession_rank/");
+  const teamFoulRef = firebaseDB.ref("team_stats/foul_rank/");
+  const teamSOTRef = firebaseDB.ref("team_stats/shot_on_target_rank/");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const resp = await axios.get(
-          "https://cors-anywhere.herokuapp.com/https://www.scoreman.vip/football/database/leagueteamtech-36"
-        );
-
-        const $ = cheerio.load(resp.data);
-        const goals = $("#Total_GOALS td");
-        const goalsNames = $("#Total_GOALS .LName");
-
-        const goalAgainst = $("#Total_MISS td");
-        const goalAgainstNames = $("#Total_MISS .LName");
-
-        const possession = $("#Total_BALLCONTROL td");
-        const possessionNames = $("#Total_BALLCONTROL .LName");
-
-        goals.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 40 && idx % 4 === 2)
-            setTopScoredGoal((goals) => [...goals, newItem]);
-        });
-
-        goalsNames.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 10) setTopScoredTeam((goals) => [...goals, newItem]);
-        });
-
-        goalAgainst.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 40 && idx % 4 === 2)
-            setTopGoalAgainst((goals) => [...goals, newItem]);
-        });
-
-        goalAgainstNames.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 10) setTopGoalAgainstTeams((goals) => [...goals, newItem]);
-        });
-
-        possession.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 30 && idx % 3 === 2)
-            setTopPossession((goals) => [...goals, newItem]);
-        });
-
-        possessionNames.each((idx, el) => {
-          const newItem = $(el).text();
-          if (idx < 10) setTopPossessionTeams((goals) => [...goals, newItem]);
-        });
-        setLoading(false);
-      } catch (e) {
-        console.log(e);
+    teamScoreRef.on("value", (snapshot) => {
+      const teams = snapshot.val();
+      const teamsData = [];
+      for (let team in teams) {
+        teamsData.push({ ...teams[team], team });
       }
-    };
-    fetchData();
+      setTopScoredTeam(teamsData);
+    });
+    teamMissRef.on("value", (snapshot) => {
+      const teams = snapshot.val();
+      const teamsData = [];
+      for (let team in teams) {
+        teamsData.push({ ...teams[team], team });
+      }
+      setTopMiss(teamsData);
+    });
+    teamPosRef.on("value", (snapshot) => {
+      const teams = snapshot.val();
+      const teamsData = [];
+      for (let team in teams) {
+        teamsData.push({ ...teams[team], team });
+      }
+      setTopPossession(teamsData);
+    });
+    teamFoulRef.on("value", (snapshot) => {
+      const teams = snapshot.val();
+      const teamsData = [];
+      for (let team in teams) {
+        teamsData.push({ ...teams[team], team });
+      }
+      setTopFoul(teamsData);
+    });
+    teamSOTRef.on("value", (snapshot) => {
+      const teams = snapshot.val();
+      const teamsData = [];
+      for (let team in teams) {
+        teamsData.push({ ...teams[team], team });
+      }
+      setTopShotOnTarget(teamsData);
+    });
+    setLoading(false);
   }, []);
 
   return (
-    <div>
+    <div className="wrap-teams">
       {" "}
       {loading ? (
         <Loading />
@@ -98,18 +87,18 @@ const Team = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {topScoredGoal.map((val, idx) => {
+                  {topScoredTeam.map((val, idx) => {
                     return (
                       <tr>
-                        <td className="stat-rank">{idx + 1}</td>
+                        <td className="stat-rank">{val.rank}</td>
                         <td className="team-logo">
                           <img
-                            src={TeamLogo(topScoredTeam[idx])}
-                            alt={topScoredTeam[idx]}
+                            src={TeamLogo(val.team_name)}
+                            alt={val.team_name}
                           />
                         </td>
-                        <td className="stat-teams">{topScoredTeam[idx]}</td>
-                        <td className="total-team-stats">{val}</td>
+                        <td className="stat-teams">{val.team_name}</td>
+                        <td className="total-team-stats">{val.score}</td>
                       </tr>
                     );
                   })}
@@ -117,7 +106,6 @@ const Team = () => {
               </table>
             </div>
           </div>
-          <br />
           <div className="div-team">
             <div className="stat-margin">
               <table>
@@ -133,20 +121,18 @@ const Team = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {topGoalAgainst.map((val, idx) => {
+                  {topMiss.map((val, idx) => {
                     return (
                       <tr>
-                        <td className="stat-rank">{idx + 1}</td>
+                        <td className="stat-rank">{val.rank}</td>
                         <td className="team-logo">
                           <img
-                            src={TeamLogo(topGoalAgainstTeams[idx])}
-                            alt={topGoalAgainstTeams[idx]}
+                            src={TeamLogo(val.team_name)}
+                            alt={val.team_name}
                           />
                         </td>
-                        <td className="stat-teams">
-                          {topGoalAgainstTeams[idx]}
-                        </td>
-                        <td className="total-team-stats">{val}</td>
+                        <td className="stat-teams">{val.team_name}</td>
+                        <td className="total-team-stats">{val.miss}</td>
                       </tr>
                     );
                   })}
@@ -154,7 +140,6 @@ const Team = () => {
               </table>
             </div>
           </div>
-          <br />
           <div className="div-team">
             <div className="stat-margin">
               <table>
@@ -175,17 +160,89 @@ const Team = () => {
                   {topPossession.map((val, idx) => {
                     return (
                       <tr>
-                        <td className="stat-rank">{idx + 1}</td>
+                        <td className="stat-rank">{val.rank}</td>
                         <td className="team-logo">
                           <img
-                            src={TeamLogo(topPossessionTeams[idx])}
-                            alt={topPossessionTeams[idx]}
+                            src={TeamLogo(val.team_name)}
+                            alt={val.team_name}
                           />
                         </td>
-                        <td className="stat-teams">
-                          {topPossessionTeams[idx]}
+                        <td className="stat-teams">{val.team_name}</td>
+                        <td className="total-team-stats">{val.possession}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="div-team">
+            <div className="stat-margin">
+              <table>
+                <caption className="stat-caption">유효 슈팅 순위</caption>
+                <thead>
+                  <tr>
+                    <td className="stat-team-head" id="score-rank">
+                      순위
+                    </td>
+                    <td className="stat-team-head"></td>
+                    <td className="stat-team-head">팀 이름</td>
+                    <td className="stat-team-head" id="stat-teams-right">
+                      유효슛
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {topShotOnTarget.map((val, idx) => {
+                    return (
+                      <tr>
+                        <td className="stat-rank">{val.rank}</td>
+                        <td className="team-logo">
+                          <img
+                            src={TeamLogo(val.team_name)}
+                            alt={val.team_name}
+                          />
                         </td>
-                        <td className="total-team-stats">{val}</td>
+                        <td className="stat-teams">{val.team_name}</td>
+                        <td className="total-team-stats">
+                          {val.shot_on_target}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="div-team">
+            <div className="stat-margin">
+              <table>
+                <caption className="stat-caption">파울 순위</caption>
+                <thead>
+                  <tr>
+                    <td className="stat-team-head" id="score-rank">
+                      순위
+                    </td>
+                    <td className="stat-team-head"></td>
+                    <td className="stat-team-head">팀 이름</td>
+                    <td className="stat-team-head" id="stat-teams-right">
+                      파울
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {topFoul.map((val, idx) => {
+                    return (
+                      <tr>
+                        <td className="stat-rank">{val.rank}</td>
+                        <td className="team-logo">
+                          <img
+                            src={TeamLogo(val.team_name)}
+                            alt={val.team_name}
+                          />
+                        </td>
+                        <td className="stat-teams">{val.team_name}</td>
+                        <td className="total-team-stats">{val.foul}</td>
                       </tr>
                     );
                   })}
