@@ -27,8 +27,9 @@ const ShowStandings = () => {
       }
       setStandings(teamsData);
     });
-
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   }, []);
 
   return (

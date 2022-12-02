@@ -60,7 +60,9 @@ const Players = () => {
       }
       setTopPasser(playersData);
     });
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   }, []);
 
   return (

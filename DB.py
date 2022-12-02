@@ -33,6 +33,8 @@ cnt = 0
 for i in range(0, 40, 2):
     ref_std = db.reference('league_rank/'+ str(int(i / 2) + 1))
     ref_std.update({'rank' : teams[i].text, 'team_name' : teams[i+1].text, 'G' : teams[40 + cnt*6].text,'W' : teams[40 + cnt*6 + 1].text, 'D' : teams[40 + cnt*6 + 2].text, 'L' : teams[40 + cnt*6 + 3].text, 'Pt' : teams[40 + cnt*6 + 4].text})
+    cnt += 1
+
 
 PLAYER_RANK = "https://www.scoreman.vip/football/database/playertech-36"
 
