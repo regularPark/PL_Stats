@@ -1,0 +1,26 @@
+{
+  "name": "PL_Stats",
+  "version": "1.0.0",
+  "description": "~~API-FOOTBALL을 호출하여 리그 정보를 받아옴.~~",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/regularPark/PL_Stats.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/regularPark/PL_Stats/issues"
+  },
+  "homepage": "https://github.com/regularPark/PL_Stats#readme",
+  "dependencies": {
+    "concurrently": "^7.6.0",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
+  }
+}

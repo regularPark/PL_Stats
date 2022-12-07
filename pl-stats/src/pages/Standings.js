@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import TeamLogo from "./../components/TeamLogo";
 import Loading from "../components/Loading";
 import { firebaseDB } from "../service/firebase";
+import TeamPages from "./TeamPages";
+import { Link, useNavigate } from "react-router-dom";
 
 const ShowStandings = () => {
   const [loading, setLoading] = useState(true);
@@ -31,6 +33,18 @@ const ShowStandings = () => {
       setLoading(false);
     }, 500);
   }, []);
+
+  const teamPagesHandler = (event) => {
+    let teamName = event.target.innerText;
+    console.log(event.target);
+    return (
+      <Link to={`/${teamName}`}>
+        <TeamPages id={teamName} />
+      </Link>
+    );
+  };
+
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -68,7 +82,13 @@ const ShowStandings = () => {
                           alt={val.team_name}
                         />
                       </td>
-                      <td className="team-name">{val.team_name}</td>
+                      <td
+                        className="team-name"
+                        onClick={() => navigate(`/standings/${val.team_name}`)}
+                        key={val.team_name}
+                      >
+                        {val.team_name}
+                      </td>
                       <td className="res">{val.G}</td>
                       <td className="res">{val.W}</td>
                       <td className="res">{val.D}</td>
