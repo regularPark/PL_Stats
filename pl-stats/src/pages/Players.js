@@ -2,7 +2,7 @@ import "./Players.css";
 import { useEffect, useState } from "react";
 import TeamLogo from "./../components/TeamLogo";
 import { Loading } from "./../components/Loading";
-import { firebaseDB } from "../service/firebase";
+import axios from "axios";
 
 const Players = () => {
   const [loading, setLoading] = useState(true);
@@ -13,52 +13,32 @@ const Players = () => {
   const [topKeyPasser, setTopKeyPasser] = useState([]);
   const [topPasser, setTopPasser] = useState([]);
 
-  const scoreRef = firebaseDB.ref("player_stats/score_rank/");
-  const assistRef = firebaseDB.ref("player_stats/assist_rank/");
-  const dribbleRef = firebaseDB.ref("player_stats/dribble_rank/");
-  const keyPassesRef = firebaseDB.ref("player_stats/key_pass_rank/");
-  const passesRef = firebaseDB.ref("player_stats/pass_rank/");
+  const assistRank = [];
+  const scoreRank = [];
+  const dribbleRank = [];
+  const keyPassesRank = [];
+  const passesRank = [];
+
+  const sortPlayers = (players, rank) => {
+    players.forEach((player, idx) => {
+      if (idx > 0) rank.push(player);
+    });
+  };
 
   useEffect(() => {
-    scoreRef.on("value", (snapshot) => {
-      const players = snapshot.val();
-      const playersData = [];
-      for (let player in players) {
-        playersData.push({ ...players[player], player });
-      }
-      setTopScorer(playersData);
-    });
-    assistRef.on("value", (snapshot) => {
-      const players = snapshot.val();
-      const playersData = [];
-      for (let player in players) {
-        playersData.push({ ...players[player], player });
-      }
-      setTopAssist(playersData);
-    });
-    keyPassesRef.on("value", (snapshot) => {
-      const players = snapshot.val();
-      const playersData = [];
-      for (let player in players) {
-        playersData.push({ ...players[player], player });
-      }
-      setTopKeyPasser(playersData);
-    });
-    dribbleRef.on("value", (snapshot) => {
-      const players = snapshot.val();
-      const playersData = [];
-      for (let player in players) {
-        playersData.push({ ...players[player], player });
-      }
-      setTopDribbler(playersData);
-    });
-    passesRef.on("value", (snapshot) => {
-      const players = snapshot.val();
-      const playersData = [];
-      for (let player in players) {
-        playersData.push({ ...players[player], player });
-      }
-      setTopPasser(playersData);
+    axios.get("/api/players").then((response) => {
+      response.data.forEach((val, idx) => {
+        if (idx === 0) sortPlayers(val, assistRank);
+        if (idx === 1) sortPlayers(val, dribbleRank);
+        if (idx === 2) sortPlayers(val, keyPassesRank);
+        if (idx === 3) sortPlayers(val, passesRank);
+        if (idx === 4) sortPlayers(val, scoreRank);
+      });
+      setTopScorer(scoreRank);
+      setTopAssist(assistRank);
+      setTopDribbler(dribbleRank);
+      setTopKeyPasser(keyPassesRank);
+      setTopPasser(passesRank);
     });
     setTimeout(() => {
       setLoading(false);

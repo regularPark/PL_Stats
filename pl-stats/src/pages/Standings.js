@@ -2,16 +2,14 @@ import "./Standings.css";
 import { useEffect, useState } from "react";
 import TeamLogo from "./../components/TeamLogo";
 import Loading from "../components/Loading";
-import { firebaseDB } from "../service/firebase";
 import TeamPages from "./TeamPages";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const ShowStandings = () => {
   const [loading, setLoading] = useState(true);
 
   const [standings, setStandings] = useState([]);
-
-  const rankRef = firebaseDB.ref("league_rank/");
 
   const whichLeague = (rank) => {
     if (rank < 4) return "cl";
@@ -20,13 +18,13 @@ const ShowStandings = () => {
     if (rank > 17) return "dl";
     else return "etc";
   };
+
   useEffect(() => {
-    rankRef.on("value", (snapshot) => {
-      const teams = snapshot.val();
+    axios.get("/api/standings").then((response) => {
       const teamsData = [];
-      for (let team in teams) {
-        teamsData.push({ ...teams[team], team });
-      }
+      response.data.forEach((val) => {
+        teamsData.push(val);
+      });
       setStandings(teamsData);
     });
     setTimeout(() => {

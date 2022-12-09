@@ -2,9 +2,13 @@ import "./Team.css";
 import { useEffect, useState } from "react";
 import TeamLogo from "./../components/TeamLogo";
 import Loading from "../components/Loading";
-import { firebaseDB } from "../service/firebase";
+import axios from "axios";
 
 const Team = () => {
+  useEffect(() => {
+    axios.get("/api/team").then((response) => console.log(response.data));
+  }, []);
+
   const [loading, setLoading] = useState(true);
 
   const [topScoredTeam, setTopScoredTeam] = useState([]);
@@ -13,52 +17,32 @@ const Team = () => {
   const [topShotOnTarget, setTopShotOnTarget] = useState([]);
   const [topFoul, setTopFoul] = useState([]);
 
-  const teamScoreRef = firebaseDB.ref("team_stats/team_score_rank/");
-  const teamMissRef = firebaseDB.ref("team_stats/team_miss_rank/");
-  const teamPosRef = firebaseDB.ref("team_stats/possession_rank/");
-  const teamFoulRef = firebaseDB.ref("team_stats/foul_rank/");
-  const teamSOTRef = firebaseDB.ref("team_stats/shot_on_target_rank/");
+  const teamScoreRank = [];
+  const teamMissRank = [];
+  const teamPosRank = [];
+  const teamFoulRank = [];
+  const teamSOTRank = [];
+
+  const sortTeams = (players, rank) => {
+    players.forEach((player, idx) => {
+      if (idx > 0) rank.push(player);
+    });
+  };
 
   useEffect(() => {
-    teamScoreRef.on("value", (snapshot) => {
-      const teams = snapshot.val();
-      const teamsData = [];
-      for (let team in teams) {
-        teamsData.push({ ...teams[team], team });
-      }
-      setTopScoredTeam(teamsData);
-    });
-    teamMissRef.on("value", (snapshot) => {
-      const teams = snapshot.val();
-      const teamsData = [];
-      for (let team in teams) {
-        teamsData.push({ ...teams[team], team });
-      }
-      setTopMiss(teamsData);
-    });
-    teamPosRef.on("value", (snapshot) => {
-      const teams = snapshot.val();
-      const teamsData = [];
-      for (let team in teams) {
-        teamsData.push({ ...teams[team], team });
-      }
-      setTopPossession(teamsData);
-    });
-    teamFoulRef.on("value", (snapshot) => {
-      const teams = snapshot.val();
-      const teamsData = [];
-      for (let team in teams) {
-        teamsData.push({ ...teams[team], team });
-      }
-      setTopFoul(teamsData);
-    });
-    teamSOTRef.on("value", (snapshot) => {
-      const teams = snapshot.val();
-      const teamsData = [];
-      for (let team in teams) {
-        teamsData.push({ ...teams[team], team });
-      }
-      setTopShotOnTarget(teamsData);
+    axios.get("/api/teams").then((response) => {
+      response.data.forEach((val, idx) => {
+        if (idx === 0) sortTeams(val, teamFoulRank);
+        if (idx === 1) sortTeams(val, teamPosRank);
+        if (idx === 2) sortTeams(val, teamSOTRank);
+        if (idx === 3) sortTeams(val, teamMissRank);
+        if (idx === 4) sortTeams(val, teamScoreRank);
+      });
+      setTopFoul(teamFoulRank);
+      setTopMiss(teamMissRank);
+      setTopPossession(teamPosRank);
+      setTopShotOnTarget(teamSOTRank);
+      setTopScoredTeam(teamScoreRank);
     });
     setTimeout(() => {
       setLoading(false);
